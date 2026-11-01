@@ -1,0 +1,30 @@
+server:
+  port: 8085
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shortener
+    username: shortener
+    password: shortener
+  jpa:
+    hibernate:
+      ddl-auto: update      # dev convenience; use Flyway/Liquibase in production
+    open-in-view: false     # avoid holding a DB connection through the whole request
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# Base host used to build the full short URL returned to clients
+app:
+  base-url: http://localhost:8085
+  # Base62 encodes the DB id; a non-zero offset makes codes non-sequential/less guessable
+  id-offset: 1000000000
+
+logging:
+  level:
+    com.example.urlshortener: INFO
